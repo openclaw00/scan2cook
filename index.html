@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCAN2COOK — Scan. Cook. Eat.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;900&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue-grey: #d4e2e6;
+  --cream: #e8e4d4;
+  --coral: #f07058;
+  --amber: #f5c020;
+  --green: #6aab4a;
+  --dark: #2a2420;
+  --text: #3a302a;
+  --muted: #8a7a70;
+  --white: #fdfaf6;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--white);color:var(--text);font-family:'Nunito',sans-serif;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(253,250,246,0.92);backdrop-filter:blur(12px);border-bottom:2px solid var(--cream)}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo img{width:40px;height:40px;object-fit:contain}
+.nav-logo-text{font-family:'DM Serif Display',serif;font-size:22px;color:var(--dark);letter-spacing:-0.01em}
+.nav-logo-text span{color:var(--coral)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-size:14px;font-weight:700;letter-spacing:0.04em;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--coral)}
+.nav-cta{background:var(--coral);color:#fff;font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;letter-spacing:0.05em;padding:10px 24px;border-radius:100px;text-decoration:none;transition:background 0.2s,transform 0.15s}
+.nav-cta:hover{background:#e05a40;transform:translateY(-1px)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 48px 80px;background:linear-gradient(135deg,var(--blue-grey) 0%,var(--cream) 60%,#f5e8c8 100%);position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:520px;height:520px;background:radial-gradient(circle,rgba(240,112,88,0.12) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:1200px;margin:0 auto;width:100%}
+.hero-label{display:inline-flex;align-items:center;gap:8px;background:rgba(240,112,88,0.12);color:var(--coral);font-size:11px;font-weight:800;letter-spacing:0.18em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:24px}
+.hero-label::before{content:'●';font-size:7px;animation:blink 1.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(48px,5.5vw,76px);line-height:1.05;letter-spacing:-0.02em;color:var(--dark);margin-bottom:24px}
+.hero h1 em{font-style:italic;color:var(--coral)}
+.hero-desc{font-size:17px;line-height:1.75;color:var(--muted);max-width:420px;margin-bottom:40px}
+.hero-btns{display:flex;gap:16px;align-items:center}
+.btn-fill{background:var(--coral);color:#fff;font-family:'Nunito',sans-serif;font-size:14px;font-weight:800;letter-spacing:0.04em;padding:14px 32px;border-radius:100px;text-decoration:none;transition:background 0.2s,transform 0.15s;box-shadow:0 4px 16px rgba(240,112,88,0.3)}
+.btn-fill:hover{background:#e05a40;transform:translateY(-2px)}
+.btn-outline{font-size:14px;font-weight:700;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color 0.2s}
+.btn-outline:hover{color:var(--coral)}
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center}
+.hero-phone{background:#fff;border-radius:40px;width:280px;height:560px;box-shadow:0 32px 80px rgba(42,36,32,0.15),0 8px 24px rgba(42,36,32,0.08);overflow:hidden;animation:phoneFloat 5s ease-in-out infinite;position:relative}
+@keyframes phoneFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.phone-screen{height:100%;background:linear-gradient(180deg,#f5f0e8 0%,#fdfaf6 30%);padding:32px 20px 20px;display:flex;flex-direction:column;gap:12px}
+.phone-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.phone-time{font-size:12px;font-weight:700;color:var(--dark)}
+.phone-logo{font-family:'DM Serif Display',serif;font-size:14px;color:var(--coral)}
+.scan-area{background:linear-gradient(135deg,var(--blue-grey),#c8d8dc);border-radius:20px;height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.scan-area::before{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--coral),transparent);animation:scanLine 2s linear infinite;top:20%}
+@keyframes scanLine{0%{top:10%}100%{top:90%}}
+.scan-icon{font-size:48px}
+.inventory-label{font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
+.inv-item{background:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.inv-item-name{font-size:13px;font-weight:700;color:var(--dark)}
+.inv-item-exp{font-size:11px;font-weight:600;padding:3px 8px;border-radius:100px}
+.exp-ok{background:rgba(106,171,74,0.15);color:var(--green)}
+.exp-warn{background:rgba(245,192,32,0.2);color:#c49000}
+.exp-bad{background:rgba(240,112,88,0.15);color:var(--coral)}
+.hero-badges{position:absolute;right:-40px;top:10%;display:flex;flex-direction:column;gap:16px}
+.badge{background:#fff;border-radius:16px;padding:10px 14px;box-shadow:0 6px 20px rgba(42,36,32,0.1);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.badge-icon{font-size:20px}
+.badge-text{font-size:12px;font-weight:700;color:var(--dark)}
+
+/* HERO STATS */
+.hero-stats{display:flex;gap:40px;margin-top:48px;padding-top:32px;border-top:2px solid rgba(42,36,32,0.1)}
+.stat-num{font-family:'DM Serif Display',serif;font-size:32px;color:var(--dark)}
+.stat-num span{color:var(--coral)}
+.stat-lbl{font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+
+/* SECTION */
+section{padding:120px 48px;max-width:1200px;margin:0 auto}
+.section-wrap{max-width:1200px;margin:0 auto;padding:0 48px}
+.sec-tag{font-size:11px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;color:var(--coral);margin-bottom:16px}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,3.5vw,52px);line-height:1.1;letter-spacing:-0.02em;color:var(--dark);margin-bottom:16px}
+.sec-sub{font-size:16px;line-height:1.75;color:var(--muted);max-width:480px;margin-bottom:64px}
+
+/* FEATURES STRIP */
+.features-bg{background:var(--dark);padding:120px 0}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1200px;margin:0 auto;padding:0 48px}
+.feat{background:#362e28;padding:48px 36px;position:relative;overflow:hidden;transition:background 0.25s}
+.feat:first-child{border-radius:20px 0 0 20px}
+.feat:last-child{border-radius:0 20px 20px 0}
+.feat:hover{background:#403830}
+.feat-dot{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:24px}
+.feat-dot-coral{background:rgba(240,112,88,0.2)}
+.feat-dot-amber{background:rgba(245,192,32,0.2)}
+.feat-dot-green{background:rgba(106,171,74,0.2)}
+.feat h3{font-size:16px;font-weight:800;letter-spacing:0.02em;color:#f0e8e0;margin-bottom:10px}
+.feat p{font-size:14px;line-height:1.7;color:#8a7a6a}
+.feat-accent{position:absolute;bottom:0;left:0;height:3px;width:0;transition:width 0.4s ease}
+.feat:hover .feat-accent{width:100%}
+
+/* HOW IT WORKS */
+.how-bg{background:var(--cream);padding:120px 0}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1200px;margin:0 auto;padding:0 48px}
+.step{position:relative}
+.step-num{font-family:'DM Serif Display',serif;font-size:48px;color:rgba(42,36,32,0.1);line-height:1;margin-bottom:16px}
+.step-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:20px}
+.step h3{font-size:15px;font-weight:800;color:var(--dark);margin-bottom:8px}
+.step p{font-size:13px;line-height:1.7;color:var(--muted)}
+.step-connector{position:absolute;top:80px;right:-16px;width:32px;height:2px;background:rgba(240,112,88,0.3)}
+.step:last-child .step-connector{display:none}
+
+/* EXPIRY */
+.expiry-bg{background:var(--white);padding:120px 0}
+.expiry-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto;padding:0 48px}
+.expiry-card{background:var(--cream);border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:12px}
+.notif{background:#fff;border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 16px rgba(42,36,32,0.06);animation:slideIn 0.5s ease forwards;opacity:0}
+.notif:nth-child(1){animation-delay:0.1s}
+.notif:nth-child(2){animation-delay:0.3s}
+.notif:nth-child(3){animation-delay:0.5s}
+@keyframes slideIn{to{opacity:1;transform:translateX(0)}from{transform:translateX(-16px)}}
+.notif-icon{font-size:24px;flex-shrink:0}
+.notif-body{flex:1}
+.notif-title{font-size:13px;font-weight:800;color:var(--dark)}
+.notif-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.notif-time{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px}
+.t-red{background:rgba(240,112,88,0.15);color:var(--coral)}
+.t-amber{background:rgba(245,192,32,0.15);color:#c49000}
+.t-green{background:rgba(106,171,74,0.15);color:var(--green)}
+
+/* CTA */
+.cta-bg{background:var(--coral);padding:100px 0}
+.cta-inner{max-width:640px;margin:0 auto;text-align:center;padding:0 48px}
+.cta-inner .sec-tag{color:rgba(255,255,255,0.7)}
+.cta-inner .sec-title{color:#fff}
+.cta-inner .sec-sub{color:rgba(255,255,255,0.8);margin:0 auto 48px}
+.waitlist{display:flex;max-width:480px;margin:0 auto;background:rgba(255,255,255,0.15);border-radius:100px;overflow:hidden;border:2px solid rgba(255,255,255,0.3)}
+.waitlist input{flex:1;background:transparent;border:none;outline:none;padding:14px 24px;font-family:'Nunito',sans-serif;font-size:14px;color:#fff}
+.waitlist input::placeholder{color:rgba(255,255,255,0.6)}
+.waitlist button{background:#fff;color:var(--coral);font-family:'Nunito',sans-serif;font-size:13px;font-weight:800;letter-spacing:0.04em;border:none;padding:14px 28px;border-radius:100px;cursor:pointer;margin:4px;transition:transform 0.15s}
+.waitlist button:hover{transform:scale(1.03)}
+.cta-note{font-size:12px;font-weight:700;color:rgba(255,255,255,0.6);margin-top:16px;letter-spacing:0.06em;text-transform:uppercase}
+
+/* FOOTER */
+footer{background:var(--dark);padding:48px;display:flex;align-items:center;justify-content:space-between}
+.foot-logo{font-family:'DM Serif Display',serif;font-size:20px;color:#f0e8e0}
+.foot-logo span{color:var(--coral)}
+.foot-links{display:flex;gap:28px;list-style:none}
+.foot-links a{font-size:12px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#5a504a;text-decoration:none;transition:color 0.2s}
+.foot-links a:hover{color:var(--coral)}
+.foot-copy{font-size:12px;font-weight:600;color:#5a504a}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <img src="scan2cook_logo.png" alt="Scan2Cook">
+    <span class="nav-logo-text">Scan<span>2</span>Cook</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how">How it Works</a></li>
+    <li><a href="#expiry">Expiry Tracking</a></li>
+  </ul>
+  <a href="#waitlist" class="nav-cta">Get Early Access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" style="padding-left:0;padding-right:0;max-width:100%">
+  <div class="hero-inner" style="padding:0 48px">
+    <div>
+      <div class="hero-label">AI-Powered Kitchen App</div>
+      <h1>Scan it.<br><em>Cook it.</em><br>Love it.</h1>
+      <p class="hero-desc">Scan your groceries, track expiry dates, and let AI suggest delicious recipes — all in one place.</p>
+      <div class="hero-btns">
+        <a href="#waitlist" class="btn-fill">Get Early Access</a>
+        <a href="#how" class="btn-outline">See how it works →</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="stat-num">30<span>s</span></div>
+          <div class="stat-lbl">Scan Time</div>
+        </div>
+        <div>
+          <div class="stat-num">500<span>+</span></div>
+          <div class="stat-lbl">Recipes</div>
+        </div>
+        <div>
+          <div class="stat-num">0<span>%</span></div>
+          <div class="stat-lbl">Food Waste</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-phone">
+        <div class="phone-screen">
+          <div class="phone-top-bar">
+            <span class="phone-time">9:41</span>
+            <span class="phone-logo">S2C</span>
+          </div>
+          <div class="scan-area">
+            <span class="scan-icon">📷</span>
+          </div>
+          <div class="inventory-label">My Pantry</div>
+          <div class="inv-item">
+            <span class="inv-item-name">🥛 Whole Milk</span>
+            <span class="inv-item-exp exp-warn">3 days</span>
+          </div>
+          <div class="inv-item">
+            <span class="inv-item-name">🥚 Free Range Eggs</span>
+            <span class="inv-item-exp exp-ok">2 weeks</span>
+          </div>
+          <div class="inv-item">
+            <span class="inv-item-name">🧀 Cheddar</span>
+            <span class="inv-item-exp exp-bad">Today!</span>
+          </div>
+          <div class="inv-item">
+            <span class="inv-item-name">🍅 Tomatoes</span>
+            <span class="inv-item-exp exp-ok">5 days</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-badges">
+        <div class="badge"><span class="badge-icon">🤖</span><span class="badge-text">AI Recipes</span></div>
+        <div class="badge"><span class="badge-icon">⏰</span><span class="badge-text">Expiry Alerts</span></div>
+        <div class="badge"><span class="badge-icon">🌱</span><span class="badge-text">Less Waste</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="features-bg" id="features">
+  <div class="section-wrap">
+    <div class="sec-tag">Capabilities</div>
+    <h2 class="sec-title">Everything your kitchen needs</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feat">
+      <div class="feat-dot feat-dot-coral">📦</div>
+      <h3>Barcode Scanning</h3>
+      <p>Point your camera at any grocery item. The app identifies it instantly, logs it to your inventory, and records the expiry date.</p>
+      <div class="feat-accent" style="background:var(--coral)"></div>
+    </div>
+    <div class="feat">
+      <div class="feat-dot feat-dot-amber">🧠</div>
+      <h3>AI Recipe Generator</h3>
+      <p>Our AI analyses what you have and suggests recipes you can make right now — prioritising ingredients that expire soon.</p>
+      <div class="feat-accent" style="background:var(--amber)"></div>
+    </div>
+    <div class="feat">
+      <div class="feat-dot feat-dot-green">🗂️</div>
+      <h3>Smart Inventory</h3>
+      <p>All items sorted into categories: Vegetables, Meat, Dairy, Pantry. One clean view of everything you own.</p>
+      <div class="feat-accent" style="background:var(--green)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-bg" id="how">
+  <div class="section-wrap" style="margin-bottom:64px">
+    <div class="sec-tag">Process</div>
+    <h2 class="sec-title">Four steps to smarter eating</h2>
+    <p class="sec-sub">Minimal input. Maximum output. Scan2Cook handles the thinking so you don't have to.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon" style="background:rgba(240,112,88,0.12)">📷</div>
+      <h3>Scan Your Items</h3>
+      <p>Open the app and scan barcodes as you unpack your groceries. Takes seconds per item.</p>
+      <div class="step-connector"></div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon" style="background:rgba(245,192,32,0.15)">🗄️</div>
+      <h3>Auto-Inventory</h3>
+      <p>Products are identified, categorised, and stored with expiry dates — no manual entry needed.</p>
+      <div class="step-connector"></div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon" style="background:rgba(106,171,74,0.12)">🔔</div>
+      <h3>Get Alerts</h3>
+      <p>Receive smart notifications 7 days, 3 days, and 1 day before items expire. Never waste food again.</p>
+      <div class="step-connector"></div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-icon" style="background:rgba(240,112,88,0.12)">🍳</div>
+      <h3>Cook with AI</h3>
+      <p>Tap "What can I cook?" and get recipes matched to your ingredients — all under 30 minutes.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EXPIRY TRACKING -->
+<div class="expiry-bg" id="expiry">
+  <div class="expiry-inner">
+    <div>
+      <div class="sec-tag">Expiry Tracking</div>
+      <h2 class="sec-title">Never eat something you shouldn't</h2>
+      <p class="sec-sub" style="margin-bottom:0">Smart notifications remind you before things go bad — not after. Scan2Cook keeps your fridge safe and your wallet happy.</p>
+    </div>
+    <div class="expiry-card">
+      <div style="font-size:12px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px">🔔 Notifications</div>
+      <div class="notif">
+        <span class="notif-icon">🥛</span>
+        <div class="notif-body">
+          <div class="notif-title">Whole Milk expiring</div>
+          <div class="notif-sub">Use it today — try a white sauce!</div>
+        </div>
+        <span class="notif-time t-red">Today</span>
+      </div>
+      <div class="notif">
+        <span class="notif-icon">🧀</span>
+        <div class="notif-body">
+          <div class="notif-title">Cheddar expiring soon</div>
+          <div class="notif-sub">3 recipe suggestions ready</div>
+        </div>
+        <span class="notif-time t-amber">3 days</span>
+      </div>
+      <div class="notif">
+        <span class="notif-icon">🥦</span>
+        <div class="notif-body">
+          <div class="notif-title">Broccoli added to pantry</div>
+          <div class="notif-sub">Expires in 1 week — you're good!</div>
+        </div>
+        <span class="notif-time t-green">1 week</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-bg" id="waitlist">
+  <div class="cta-inner">
+    <div class="sec-tag">Early Access</div>
+    <h2 class="sec-title" style="margin-bottom:16px">Ready to cook smarter?</h2>
+    <p class="sec-sub">Join the waitlist. First 1,000 users get free premium access for 3 months.</p>
+    <div class="waitlist">
+      <input type="email" placeholder="your@email.com">
+      <button>Join Now</button>
+    </div>
+    <p class="cta-note">No spam · Unsubscribe anytime</p>
+  </div>
+</div>
+
+<footer>
+  <div class="foot-logo">Scan<span>2</span>Cook</div>
+  <ul class="foot-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <div class="foot-copy">© 2026 Scan2Cook</div>
+</footer>
+
+</body>
+</html>
