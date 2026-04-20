@@ -56,17 +56,37 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .phone-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .phone-time{font-size:12px;font-weight:700;color:var(--dark)}
 .phone-logo{font-family:'DM Serif Display',serif;font-size:14px;color:var(--coral)}
-.scan-area{background:linear-gradient(135deg,var(--blue-grey),#c8d8dc);border-radius:20px;height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.scan-area::before{content:'';position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--coral),transparent);animation:scanLine 2s linear infinite;top:20%}
+
+/* scan area */
+.scan-area{border-radius:20px;height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,var(--blue-grey),#c8d8dc)}
+.scan-area video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:none}
+.scan-area.live video{display:block}
+.scan-area.live .scan-idle{display:none}
+.scan-line{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--coral),transparent);animation:scanLine 1.4s linear infinite;top:10%;pointer-events:none;z-index:2}
 @keyframes scanLine{0%{top:10%}100%{top:90%}}
-.scan-icon{font-size:48px}
+.scan-corners{position:absolute;inset:8px;pointer-events:none;z-index:2}
+.scan-corners::before,.scan-corners::after{content:'';position:absolute;width:18px;height:18px;border-color:var(--coral);border-style:solid}
+.scan-corners::before{top:0;left:0;border-width:3px 0 0 3px}
+.scan-corners::after{bottom:0;right:0;border-width:0 3px 3px 0}
+.scan-corner-tr,.scan-corner-bl{position:absolute;width:18px;height:18px;border-color:var(--coral);border-style:solid;z-index:2}
+.scan-corner-tr{top:8px;right:8px;border-width:3px 3px 0 0}
+.scan-corner-bl{bottom:8px;left:8px;border-width:0 0 3px 3px}
+.scan-idle{display:flex;flex-direction:column;align-items:center;gap:4px;z-index:1}
+.scan-icon{font-size:36px}
+.scan-hint{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted)}
+.scan-flash{position:absolute;inset:0;background:rgba(240,112,88,0.35);opacity:0;border-radius:20px;pointer-events:none;z-index:3;transition:opacity 0.1s}
+.scan-label-overlay{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);z-index:4;opacity:0;transition:opacity 0.3s}
+
 .inventory-label{font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)}
-.inv-item{background:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.inv-item{background:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:transform 0.2s}
+.inv-item.new-item{animation:popIn 0.4s ease}
+@keyframes popIn{0%{transform:scale(0.85);opacity:0}100%{transform:scale(1);opacity:1}}
 .inv-item-name{font-size:13px;font-weight:600;color:var(--dark)}
 .inv-item-exp{font-size:11px;font-weight:600;padding:3px 8px;border-radius:100px}
 .exp-ok{background:rgba(106,171,74,0.15);color:var(--green)}
 .exp-warn{background:rgba(245,192,32,0.2);color:#c49000}
 .exp-bad{background:rgba(240,112,88,0.15);color:var(--coral)}
+
 .hero-badges{position:absolute;right:-40px;top:10%;display:flex;flex-direction:column;gap:16px}
 .badge{background:#fff;border-radius:16px;padding:10px 14px;box-shadow:0 6px 20px rgba(42,36,32,0.1);display:flex;align-items:center;gap:8px;white-space:nowrap}
 .badge-icon{font-size:20px}
@@ -174,12 +194,26 @@ footer{background:var(--dark);padding:48px;display:flex;align-items:center;justi
       <div class="hero-phone">
         <div class="phone-screen">
           <div class="phone-top-bar"><span class="phone-time">9:41</span><span class="phone-logo">S2C</span></div>
-          <div class="scan-area"><span class="scan-icon">📷</span></div>
+
+          <div class="scan-area" id="scanArea" onclick="startScan()">
+            <video id="camFeed" autoplay playsinline muted></video>
+            <div class="scan-line"></div>
+            <div class="scan-corners"></div>
+            <div class="scan-corner-tr"></div>
+            <div class="scan-corner-bl"></div>
+            <div class="scan-flash" id="scanFlash"></div>
+            <div class="scan-label-overlay" id="scanLabel"></div>
+            <div class="scan-idle">
+              <span class="scan-icon">📷</span>
+              <span class="scan-hint">Tap to scan</span>
+            </div>
+          </div>
+
           <div class="inventory-label">My Pantry</div>
-          <div class="inv-item"><span class="inv-item-name">🥛 Whole Milk</span><span class="inv-item-exp exp-warn">3 days</span></div>
-          <div class="inv-item"><span class="inv-item-name">🥚 Free Range Eggs</span><span class="inv-item-exp exp-ok">2 weeks</span></div>
-          <div class="inv-item"><span class="inv-item-name">🧀 Cheddar</span><span class="inv-item-exp exp-bad">Today!</span></div>
-          <div class="inv-item"><span class="inv-item-name">🍅 Tomatoes</span><span class="inv-item-exp exp-ok">5 days</span></div>
+          <div class="inv-item" id="item1"><span class="inv-item-name">🥛 Whole Milk</span><span class="inv-item-exp exp-warn">3 days</span></div>
+          <div class="inv-item" id="item2"><span class="inv-item-name">🥚 Free Range Eggs</span><span class="inv-item-exp exp-ok">2 weeks</span></div>
+          <div class="inv-item" id="item3"><span class="inv-item-name">🧀 Cheddar</span><span class="inv-item-exp exp-bad">Today!</span></div>
+          <div class="inv-item" id="item4"><span class="inv-item-name">🍅 Tomatoes</span><span class="inv-item-exp exp-ok">5 days</span></div>
         </div>
       </div>
       <div class="hero-badges">
@@ -248,6 +282,91 @@ footer{background:var(--dark);padding:48px;display:flex;align-items:center;justi
   <ul class="foot-links"><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li><li><a href="#">Contact</a></li></ul>
   <div class="foot-copy">© 2026 Scan2Cook</div>
 </footer>
+
+<script>
+const fakeItems = [
+  { name: '🥦 Broccoli',     exp: '4 days',  cls: 'exp-warn' },
+  { name: '🧈 Butter',       exp: '1 week',  cls: 'exp-ok'   },
+  { name: '🍋 Lemon',        exp: '5 days',  cls: 'exp-ok'   },
+  { name: '🥩 Beef Mince',   exp: 'Today!',  cls: 'exp-bad'  },
+  { name: '🫐 Blueberries',  exp: '2 days',  cls: 'exp-warn' },
+  { name: '🍞 Sourdough',    exp: '3 days',  cls: 'exp-warn' },
+];
+let itemIndex = 0;
+let stream = null;
+let scanInterval = null;
+
+function beep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 1800;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.12);
+  } catch(e) {}
+}
+
+function flashAndAdd() {
+  const flash = document.getElementById('scanFlash');
+  const label = document.getElementById('scanLabel');
+  const item = fakeItems[itemIndex % fakeItems.length];
+  itemIndex++;
+
+  beep();
+
+  // flash
+  flash.style.opacity = '1';
+  setTimeout(() => { flash.style.opacity = '0'; }, 150);
+
+  // show label
+  label.textContent = '✓ ' + item.name.split(' ').slice(1).join(' ') + ' detected';
+  label.style.opacity = '1';
+  setTimeout(() => { label.style.opacity = '0'; }, 1200);
+
+  // add to pantry list — replace the oldest item
+  const ids = ['item1','item2','item3','item4'];
+  const target = document.getElementById(ids[itemIndex % ids.length]);
+  target.innerHTML = `<span class="inv-item-name">${item.name}</span><span class="inv-item-exp ${item.cls}">${item.exp}</span>`;
+  target.classList.remove('new-item');
+  void target.offsetWidth;
+  target.classList.add('new-item');
+}
+
+async function startScan() {
+  const area = document.getElementById('scanArea');
+  const video = document.getElementById('camFeed');
+
+  if (stream) {
+    // already live — trigger a fake scan
+    flashAndAdd();
+    return;
+  }
+
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
+    video.srcObject = stream;
+    area.classList.add('live');
+
+    // auto-fake-scan every 3s
+    scanInterval = setInterval(flashAndAdd, 3000);
+    // first one immediately after a short delay
+    setTimeout(flashAndAdd, 800);
+  } catch(e) {
+    // camera denied or unavailable — just do the fake animation without video
+    area.classList.add('live');
+    video.style.display = 'none';
+    area.style.background = 'linear-gradient(135deg,#1a1a2e,#16213e)';
+    scanInterval = setInterval(flashAndAdd, 3000);
+    setTimeout(flashAndAdd, 800);
+  }
+}
+</script>
 
 </body>
 </html>
