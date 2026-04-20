@@ -25,7 +25,27 @@
 html{scroll-behavior:smooth}
 body{background:var(--white);color:var(--text);font-family:'Lora',serif;overflow-x:hidden}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(253,250,246,0.92);backdrop-filter:blur(12px);border-bottom:2px solid var(--cream)}
+/* FIXED FULLSCREEN WATERMARK PHOTO */
+.bg-photo{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+}
+.bg-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  opacity:0.18;
+  display:block;
+}
+
+/* everything else sits above it */
+nav, section, div, footer { position:relative; z-index:1; }
+nav { z-index:100; }
+
+nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(253,250,246,0.92);backdrop-filter:blur(12px);border-bottom:2px solid var(--cream)}
 .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
 .nav-logo-text{font-family:'DM Serif Display',serif;font-size:22px;color:var(--dark);letter-spacing:-0.01em}
 .nav-logo-text span{color:var(--coral)}
@@ -35,7 +55,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-cta{background:var(--coral);color:#fff;font-family:'Lora',serif;font-size:13px;font-weight:700;letter-spacing:0.03em;padding:10px 24px;border-radius:100px;text-decoration:none;transition:background 0.2s,transform 0.15s}
 .nav-cta:hover{background:#e05a40;transform:translateY(-1px)}
 
-.hero{min-height:100vh;display:flex;align-items:center;padding:100px 48px 80px;background:linear-gradient(135deg,var(--blue-grey) 0%,var(--cream) 60%,#f5e8c8 100%);position:relative;overflow:hidden}
+.hero{min-height:100vh;display:flex;align-items:center;padding:100px 48px 80px;background:linear-gradient(135deg,rgba(212,226,230,0.85) 0%,rgba(232,228,212,0.85) 60%,rgba(245,232,200,0.85) 100%);overflow:hidden}
 .hero::before{content:'';position:absolute;right:-80px;top:50%;transform:translateY(-50%);width:520px;height:520px;background:radial-gradient(circle,rgba(240,112,88,0.12) 0%,transparent 70%);border-radius:50%;pointer-events:none}
 .hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:1200px;margin:0 auto;width:100%}
 .hero-label{display:inline-flex;align-items:center;gap:8px;background:rgba(240,112,88,0.12);color:var(--coral);font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:6px 14px;border-radius:100px;margin-bottom:24px}
@@ -57,7 +77,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .phone-time{font-size:12px;font-weight:700;color:var(--dark)}
 .phone-logo{font-family:'DM Serif Display',serif;font-size:14px;color:var(--coral)}
 
-/* scan area */
 .scan-area{border-radius:20px;height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:pointer;background:linear-gradient(135deg,var(--blue-grey),#c8d8dc)}
 .scan-area video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:20px;display:none}
 .scan-area.live video{display:block}
@@ -96,7 +115,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .stat-num span{color:var(--coral)}
 .stat-lbl{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:2px}
 
-.features-bg{background:var(--dark);padding:120px 0}
+.features-bg{background:rgba(42,36,32,0.93);padding:120px 0}
 .section-wrap{max-width:1200px;margin:0 auto;padding:0 48px}
 .sec-tag{font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--coral);margin-bottom:16px}
 .sec-title{font-family:'DM Serif Display',serif;font-size:clamp(32px,3.5vw,52px);line-height:1.1;letter-spacing:-0.02em;color:var(--dark);margin-bottom:16px}
@@ -115,11 +134,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .feat-accent{position:absolute;bottom:0;left:0;height:3px;width:0;transition:width 0.4s ease}
 .feat:hover .feat-accent{width:100%}
 
-/* HUGE TEAM PHOTO */
-.team-photo-section{width:100%;overflow:hidden;line-height:0}
-.team-photo-section img{width:100%;height:90vh;object-fit:cover;object-position:center top;opacity:0.5;display:block}
-
-.how-bg{background:var(--cream);padding:120px 0}
+.how-bg{background:rgba(232,228,212,0.9);padding:120px 0}
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;max-width:1200px;margin:0 auto;padding:0 48px}
 .step{position:relative}
 .step-num{font-family:'DM Serif Display',serif;font-size:48px;color:rgba(42,36,32,0.1);line-height:1;margin-bottom:16px}
@@ -129,7 +144,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .step-connector{position:absolute;top:80px;right:-16px;width:32px;height:2px;background:rgba(240,112,88,0.3)}
 .step:last-child .step-connector{display:none}
 
-.expiry-bg{background:var(--white);padding:120px 0}
+.expiry-bg{background:rgba(253,250,246,0.9);padding:120px 0}
 .expiry-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1200px;margin:0 auto;padding:0 48px}
 .expiry-card{background:var(--cream);border-radius:24px;padding:32px;display:flex;flex-direction:column;gap:12px}
 .notif{background:#fff;border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 4px 16px rgba(42,36,32,0.06)}
@@ -142,7 +157,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .t-amber{background:rgba(245,192,32,0.15);color:#c49000}
 .t-green{background:rgba(106,171,74,0.15);color:var(--green)}
 
-.cta-bg{background:var(--coral);padding:100px 0}
+.cta-bg{background:rgba(240,112,88,0.95);padding:100px 0}
 .cta-inner{max-width:640px;margin:0 auto;text-align:center;padding:0 48px}
 .cta-inner .sec-tag{color:rgba(255,255,255,0.7)}
 .cta-inner .sec-title{color:#fff}
@@ -154,7 +169,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .waitlist button:hover{transform:scale(1.03)}
 .cta-note{font-size:12px;font-weight:600;color:rgba(255,255,255,0.6);margin-top:16px;letter-spacing:0.06em;text-transform:uppercase}
 
-footer{background:var(--dark);padding:48px;display:flex;align-items:center;justify-content:space-between}
+footer{background:rgba(42,36,32,0.97);padding:48px;display:flex;align-items:center;justify-content:space-between}
 .foot-logo{font-family:'DM Serif Display',serif;font-size:20px;color:#f0e8e0}
 .foot-logo span{color:var(--coral)}
 .foot-links{display:flex;gap:28px;list-style:none}
@@ -164,6 +179,11 @@ footer{background:var(--dark);padding:48px;display:flex;align-items:center;justi
 </style>
 </head>
 <body>
+
+<!-- FIXED BACKGROUND PHOTO - stays put while scrolling -->
+<div class="bg-photo">
+  <img src="Photo on 20-4-26 at 14.47.jpg" alt="">
+</div>
 
 <nav>
   <a href="#" class="nav-logo">
@@ -239,10 +259,6 @@ footer{background:var(--dark);padding:48px;display:flex;align-items:center;justi
     <div class="feat"><div class="feat-dot feat-dot-amber">🧠</div><h3>AI Recipe Generator</h3><p>Our AI analyses what you have and suggests recipes you can make right now — prioritising ingredients that expire soon.</p><div class="feat-accent" style="background:var(--amber)"></div></div>
     <div class="feat"><div class="feat-dot feat-dot-green">🗂️</div><h3>Smart Inventory</h3><p>All items sorted into categories: Vegetables, Meat, Dairy, Pantry. One clean view of everything you own.</p><div class="feat-accent" style="background:var(--green)"></div></div>
   </div>
-</div>
-
-<div class="team-photo-section">
-  <img src="Photo on 20-4-26 at 14.47.jpg" alt="The Team">
 </div>
 
 <div class="how-bg" id="how">
@@ -328,16 +344,13 @@ function flashAndAdd() {
 
   beep();
 
-  // flash
   flash.style.opacity = '1';
   setTimeout(() => { flash.style.opacity = '0'; }, 150);
 
-  // show label
   label.textContent = '✓ ' + item.name.split(' ').slice(1).join(' ') + ' detected';
   label.style.opacity = '1';
   setTimeout(() => { label.style.opacity = '0'; }, 1200);
 
-  // add to pantry list — replace the oldest item
   const ids = ['item1','item2','item3','item4'];
   const target = document.getElementById(ids[itemIndex % ids.length]);
   target.innerHTML = `<span class="inv-item-name">${item.name}</span><span class="inv-item-exp ${item.cls}">${item.exp}</span>`;
@@ -351,7 +364,6 @@ async function startScan() {
   const video = document.getElementById('camFeed');
 
   if (stream) {
-    // already live — trigger a fake scan
     flashAndAdd();
     return;
   }
@@ -360,13 +372,9 @@ async function startScan() {
     stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' }, audio: false });
     video.srcObject = stream;
     area.classList.add('live');
-
-    // auto-fake-scan every 3s
     scanInterval = setInterval(flashAndAdd, 3000);
-    // first one immediately after a short delay
     setTimeout(flashAndAdd, 800);
   } catch(e) {
-    // camera denied or unavailable — just do the fake animation without video
     area.classList.add('live');
     video.style.display = 'none';
     area.style.background = 'linear-gradient(135deg,#1a1a2e,#16213e)';
